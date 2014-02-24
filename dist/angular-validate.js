@@ -1,6 +1,6 @@
 /**
  * Angular Validation Framework
- * @version v0.1.0 - 2013-12-09
+ * @version v0.1.0 - 2014-02-24
  * @link https://github.com/platanus/angular-validate
  * @author Ignacio Baixas <ignacio@platan.us>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -8,6 +8,15 @@
 
 (function(angular, undefined) {
 'use strict';
+/**
+ * Angular Validation Framework
+ * @version v0.1.0 - 2014-02-21
+ * @link https://github.com/platanus/angular-validate
+ * @author Ignacio Baixas <ignacio@platan.us>
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+
+(function(angular, undefined) {
 // groups are global, think about making them scope depedant (maybe an option for that?)
 var groups = {};
 
@@ -81,6 +90,17 @@ angular.module('platanus.validate', ['platanus.inflector'])
       require: 'ngModel',
       link: function(_scope, _element, _attrs, _ctrl) {
 
+        var runValidator = function(dsc, _value) {
+            var isValid = dsc.dyn ? dsc.dyn(_scope, { $value: _value }) : [];
+            if(dsc.fun) {
+              if(!angular.isArray(isValid)) isValid = [isValid];
+              isValid.unshift(_value);
+              isValid = (dsc.fun.validator || dsc.fun).apply(null, isValid);
+            }
+
+            _ctrl.$setValidity(dsc.as || 'validate', isValid);
+            return isValid;
+        };
         // parse validation expression
         // IDEA: find a way of storing error metadata, not just the message
         var validations = [];
@@ -95,26 +115,29 @@ angular.module('platanus.validate', ['platanus.inflector'])
             dsc.fun = $injector.get($inflector.camelize(m[1], true) + 'Validator');
             if(m[2]) dsc.dyn = $parse(m[2]);
           } else dsc.dyn = $parse(m[2]);
-
           validations.push(dsc);
         });
 
         // apply each validation on value change
-        _ctrl.$parsers.push(function(_value) {
+        _ctrl.$parsers.unshift(function(_value) {
           var i = 0, dsc, isValid, allValid = true;
           while((dsc = validations[i++])) {
-            isValid = dsc.dyn ? dsc.dyn(_scope, { $value: _value }) : [];
-            if(dsc.fun) {
-              if(!angular.isArray(isValid)) isValid = [isValid];
-              isValid.unshift(_value);
-              isValid = dsc.fun.apply(null, isValid);
-            }
-
-            _ctrl.$setValidity(dsc.as || 'validate', isValid);
+            isValid = runValidator(dsc,_value);
             if(!isValid) allValid = false;
           }
           return allValid ? _value : undefined;
         });
+
+        _ctrl.$formatters.unshift(function(_value) {
+          var i = 0, dsc, isValid, allValid = true;
+          while((dsc = validations[i++])) {
+            if (dsc.fun && dsc.fun.runOnLink) {
+              isValid = runValidator(dsc,_value);
+              if(!isValid) allValid = false;
+            }
+          }
+          return _value
+        }); 
       }
     };
   }])
@@ -165,9 +188,9 @@ angular.module('platanus.validate', ['platanus.inflector'])
   /**
    * Required validator, only allows non blank values
    */
-  .constant('RequiredValidator', function(_value) {
+  .constant('RequiredValidator', { runOnLink: true, validator: function(_value) {
     return !!_value;
-  })
+  }})
   /**
    * Match validator, only allows values that match a given regexp.
    *
@@ -184,4 +207,4 @@ angular.module('platanus.validate', ['platanus.inflector'])
     return (new RegExp(_regex)).test(_value);
   });
 
-})(angular);
+})(angular);})(angular);

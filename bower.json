@@ -1,15 +1,16 @@
 {
   "name": "angular-validate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
-    "Ignacio Baixas <ignacio@platan.us>"
+    "Ignacio Baixas <ignacio@platan.us>",
+    "Rand McNeely <loosebits@gmail.com>"
   ],
-  "description": "Angular Validation Framework",
+  "description": "Angular Validation Framework (forked)",
   "license": "MIT",
-  "homepage": "https://github.com/platanus/angular-validate",
+  "homepage": "https://github.com/loosebits/angular-validate",
   "repository": {
     "type": "git",
-    "url": "git://github.com/platanus/angular-validate.git"
+    "url": "git://github.com/loosebits/angular-validate.git"
   },
   "main": "./dist/angular-validate.min.js",
   "ignore": [
