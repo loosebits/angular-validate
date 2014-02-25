@@ -1,12 +1,3 @@
-/**
- * Angular Validation Framework
- * @version v0.1.0 - 2014-02-21
- * @link https://github.com/platanus/angular-validate
- * @author Ignacio Baixas <ignacio@platan.us>
- * @license MIT License, http://www.opensource.org/licenses/MIT
- */
-
-(function(angular, undefined) {
 'use strict';
 // groups are global, think about making them scope depedant (maybe an option for that?)
 var groups = {};
@@ -197,5 +188,3 @@ angular.module('platanus.validate', ['platanus.inflector'])
     }
     return (new RegExp(_regex)).test(_value);
   });
-
-})(angular);

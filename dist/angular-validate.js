@@ -1,6 +1,6 @@
 /**
  * Angular Validation Framework (forked)
- * @version v0.1.1 - 2014-02-25
+ * @version v0.1.2 - 2014-02-25
  * @link https://github.com/loosebits/angular-validate
  * @author Ignacio Baixas <ignacio@platan.us>, Rand McNeely <loosebits@gmail.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -8,15 +8,6 @@
 
 (function(angular, undefined) {
 'use strict';
-/**
- * Angular Validation Framework
- * @version v0.1.0 - 2014-02-21
- * @link https://github.com/platanus/angular-validate
- * @author Ignacio Baixas <ignacio@platan.us>
- * @license MIT License, http://www.opensource.org/licenses/MIT
- */
-
-(function(angular, undefined) {
 // groups are global, think about making them scope depedant (maybe an option for that?)
 var groups = {};
 
@@ -206,5 +197,4 @@ angular.module('platanus.validate', ['platanus.inflector'])
     }
     return (new RegExp(_regex)).test(_value);
   });
-
-})(angular);})(angular);
+})(angular);
