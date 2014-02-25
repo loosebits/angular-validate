@@ -1,8 +1,8 @@
 /**
- * Angular Validation Framework
- * @version v0.1.0 - 2014-02-24
- * @link https://github.com/platanus/angular-validate
- * @author Ignacio Baixas <ignacio@platan.us>
+ * Angular Validation Framework (forked)
+ * @version v0.1.1 - 2014-02-25
+ * @link https://github.com/loosebits/angular-validate
+ * @author Ignacio Baixas <ignacio@platan.us>, Rand McNeely <loosebits@gmail.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 
@@ -125,7 +125,7 @@ angular.module('platanus.validate', ['platanus.inflector'])
             isValid = runValidator(dsc,_value);
             if(!isValid) allValid = false;
           }
-          return allValid ? _value : undefined;
+          return _value;
         });
 
         _ctrl.$formatters.unshift(function(_value) {
@@ -136,7 +136,7 @@ angular.module('platanus.validate', ['platanus.inflector'])
               if(!isValid) allValid = false;
             }
           }
-          return _value
+          return _value;
         }); 
       }
     };

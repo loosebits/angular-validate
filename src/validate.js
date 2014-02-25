@@ -116,7 +116,7 @@ angular.module('platanus.validate', ['platanus.inflector'])
             isValid = runValidator(dsc,_value);
             if(!isValid) allValid = false;
           }
-          return allValid ? _value : undefined;
+          return _value;
         });
 
         _ctrl.$formatters.unshift(function(_value) {
@@ -127,7 +127,7 @@ angular.module('platanus.validate', ['platanus.inflector'])
               if(!isValid) allValid = false;
             }
           }
-          return _value
+          return _value;
         }); 
       }
     };
